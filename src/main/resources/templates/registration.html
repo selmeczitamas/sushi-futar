@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="dizsit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Sushifutár</title>
+
+    <link href="/css/custom.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+        <a class="navbar-brand" href="/">Sushifutár</a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="modal" data-target="#orderInfoModal" href="#">Rendelési Információk</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Kapcsolat</a>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/kosar">Kosár</a>
+            </li>
+            <li class="nav-item" th:if="${user}">
+                <a class="nav-link" href="#" id="logged-in-user" th:text="'Szia ' + ${user.firstName} +'!'"></a>
+            </li>
+            <li class="nav-item" th:if="${user}">
+                <a class="nav-link" id="logout" href="/logout"><span class="glyphicon glyphicon-log-out"></span> Kijelentkezés</a>
+            </li>
+
+            <li class="nav-item" th:if="${user == null}">
+                <a class="nav-link" href="/regisztracio">Regisztráció</a>
+            </li>
+            <li class="dropdown order-1" th:if="${user == null}">
+                <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">Bejelentkezés <span class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right mt-1">
+                    <li class="p-3">
+                        <form class="form" role="form">
+                            <div class="form-group">
+                                <input id="emailInput" placeholder="Email cím" class="form-control form-control-sm" type="text" required="">
+                            </div>
+                            <div class="form-group">
+                                <input id="passwordInput" placeholder="Jelszó" class="form-control form-control-sm" type="text" required="">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">Bejelentkezés</button>
+                            </div>
+                            <div class="form-group text-xs-center">
+                                <small><a href="#">Elfelejtette jelszavát?</a></small>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Body Container -->
+    <div class="container">
+        <!-- Content here -->
+        <div style="margin-top: 30px;">
+            <form id="register" th:action="@{/regisztracio}" method="post">
+                <div class="form-group row">
+                    <label for="lastname" class="col-2 col-form-label">Vezetéknév</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" placeholder="Ödön" id="lastname" name="lastname">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="firstname" class="col-2 col-form-label">Keresztnév</label>
+                    <div class="col-10">
+                        <input class="form-control" type="text" placeholder="Pöcs" id="firstname" name="firstname">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-2 col-form-label">Email cím</label>
+                    <div class="col-10">
+                        <input class="form-control" type="email" placeholder="pelda@email.hu" id="email" name="email">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="phonenumber" class="col-2 col-form-label">Telefon</label>
+                    <div class="col-10">
+                        <input class="form-control" type="tel" placeholder="06-55-555-5555" id="phonenumber" name="phonenumber">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="col-2 col-form-label">Jelszó</label>
+                    <div class="col-10">
+                        <input class="form-control" type="password" placeholder="********" id="password" name="password">
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="offset-sm-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary">Regisztrálok</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="orderInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title">Rendelési Információk</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <p>
+                            Ételeinket mindig frissen készítjük ami a kiszállítási időt befolyásolhatja. (45-120 perc!)
+                        </p>
+                        <p>
+                            Rendelésfelvétel minden nap 10:00 – 21:30<br>
+                            Kiszállítás minden nap 11:00 – 21:30
+                        </p>
+
+                        <p>
+                            Kiszállítási díjak: <br>
+                            Ingyen: I., V., VI., VII., VIII., XIII.<br>
+                            300 Ft: IX., XI.<br>
+                            500 Ft: XIV.<br>
+                            600 Ft: II., III., X., XII.<br>
+                            800 Ft: IV., XV., XVI., XIX., XX., XXI.<br>
+                            1000 Ft: XXII., XXIII., XVII., XVIII.<br>
+                        </p>
+                        <p>
+                            Minimum rendelési összeg: 2500ft
+                        </p>
+
+                        <p>
+                            A Budapesten kívüli szállítás feltételeiről, érdeklődjön központi számunkon. <br>
+                            Ételeink nem előre gyártottak, hanem mindig frissen, a rendelés megérkezése után készülnek el,<br>
+                            így Önök biztonságosan élvezhetik otthon, vagy munkahelyükön is ugyanazokat az ízeket mint éttermünkben.
+                        </p>
+                        <p>
+                            A vegetáriánus sushik, wasabi nélkül készülnek, de a dobozban mellékeljük.<br>
+                            Áraink tartalmazzák a szójaszószt, a wasabit, a sushi gyömbért, pálcikát és az áfát.<br>
+                            Ha szeretné megkóstolni egyéb tradícionális japán ételeinket is, látogasson el éttermünkbe.<br>
+                        </p>
+                        <p>
+                            Bambuszliget étterem<br>
+                            1056 Budapest, Belgrád rkp. 18.<br>
+                            Tel.: [061]318-1144<br>
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Bezár</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
